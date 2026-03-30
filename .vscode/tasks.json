@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "C/C++: build active file",
+      "type": "shell",
+      "command": "${workspaceFolder}\\.vscode\\build-active.bat",
+      "args": [
+        "${file}"
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": [
+        "$msCompile"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "Build the active C++ file with MSVC"
+    },
+    {
+      "label": "C/C++: run active file",
+      "type": "shell",
+      "command": "cmd",
+      "args": [
+        "/d",
+        "/s",
+        "/c",
+        "\"${fileDirname}\\${fileBasenameNoExtension}.exe\""
+      ],
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "dependsOn": "C/C++: build active file",
+      "problemMatcher": []
+    }
+  ]
+}

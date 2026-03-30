@@ -1,0 +1,8 @@
+.vs/
+*.exe
+*.obj
+*.pdb
+*.ilk
+*.lib
+*.exp
+debug.log
