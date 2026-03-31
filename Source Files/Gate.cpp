@@ -22,6 +22,6 @@ Wire* Gate::getOutput(int wireNum) const {
 
 }
 
-Wire::curState Gate::evaluate(type, int delay, Wire *in1, Wire *in2, Wire *out) {
+Wire::state Gate::evaluate(type, int delay, Wire *in1, Wire *in2, Wire *out) {
 
 }

@@ -10,7 +10,7 @@ public:
     int getDelay() const;
     Wire* getInput(int) const;
     Wire* getOutput(int) const;
-    Wire::curState evaluate(type, int delay, Wire *in1, Wire *in2, Wire *out); //may change return type
+    Wire::state evaluate(type, int delay, Wire *in1, Wire *in2, Wire *out); //may change return type
 
 private:
     type gateType;
