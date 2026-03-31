@@ -12,7 +12,7 @@ public:
     Wire(state, string name, vector<Gate*> drives, int index);
     void setVal(state);
     void setHistory(state);
-    void setDrives(Gate*); //FIXME: Do we need multiple gate parameters?
+    void setDrives(vector<Gate*>); 
     state getState();
     string getName();
     vector<Gate*> getDrives();
