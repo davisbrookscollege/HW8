@@ -1,5 +1,6 @@
 //Header file test
 //MORE comments!
+#include "Wire.h"
 
 class Wire;
 
@@ -14,5 +15,5 @@ public:
     int getDelay() const;
     Wire* getInput(int) const;
     Wire* getOutput(int) const;
-    char evaluate(type, int delay, Wire *in1, Wire *in2, Wire *out); //may change return type
+    Wire::state evaluate(type, int delay, Wire *in1, Wire *in2, Wire *out); //may change return type
 };
