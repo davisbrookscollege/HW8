@@ -2,8 +2,6 @@
 //MORE comments!
 #include "Wire.h"
 
-class Wire;
-
 class Gate {
 private:
     enum type {NOT, AND, NAND, OR, NOR, XOR, XNOR};
