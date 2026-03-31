@@ -9,7 +9,7 @@ public:
     Gate(type gateType, int delay, Wire *in1, Wire *in2, Wire *out);
     int getDelay() const;
     Wire* getInput(int) const;
-    Wire* getOutput(int) const;
+    Wire* getOutput() const;
     Wire::state evaluate(type, int delay, Wire *in1, Wire *in2, Wire *out); //may change return type
 
 private:
