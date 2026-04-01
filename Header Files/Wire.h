@@ -9,7 +9,7 @@ class Wire {
 
 public:
     enum state {HI, LO, UND};
-    Wire(state, string name, vector<Gate*> drives);
+    Wire(state initState = UND, string name = "", vector<Gate*> drives = {});
     void setVal(state);
     void setHistory(state);
     void setDrives(vector<Gate*>); 

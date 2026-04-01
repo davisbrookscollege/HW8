@@ -9,7 +9,8 @@ typedef Wire::state state;
 int Wire::numWires = -1;
 
 //Constructs the class with minimal default values
-Wire::Wire(state initState = UND, string initName = "", vector<Gate*> initdrives = {}) {
+Wire::Wire(state initState, string initName, vector<Gate*> initDrives):
+    curState(initState), name(initName), drives(initDrives) {
     numWires++;
     index = numWires;
     history = {};
