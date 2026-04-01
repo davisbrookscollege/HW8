@@ -6,52 +6,53 @@ using namespace std;
 
 typedef Wire::state state;
 
-//STUB!
-Wire::Wire(state s, string n, vector<Gate*> d, int i) {
+int Wire::numWires = -1;
 
+//Constructs the class with minimal default values
+Wire::Wire(state initState = UND, string initName = "", vector<Gate*> initdrives = {}) {
+    numWires++;
+    index = numWires;
+    history = {};
 }
 
-//STUB!
-void Wire::setVal(state s) {
-
+//Sets the current state of the wire
+void Wire::setVal(state inputState) {
+    curState = inputState;
 }
 
-//STUB!
-void Wire::setHistory(state s) {
-
+//Pushes back 1 state to the history
+void Wire::setHistory(state inputState) {
+    history.push_back(inputState);
 }
 
-//STUB!
-void Wire::setDrives(vector<Gate*> g) {
-
+//Assignes drives with the input drives
+void Wire::setDrives(vector<Gate*> inputDrives) {
+    drives = inputDrives;
 }
 
-//STUB!
-state Wire::getState() {
-    state s;
-    return s;
+//Returns the current state of the wire;
+state Wire::getState() const {
+    return curState;
 }
 
-//STUB!
-string Wire::getName() {
-    string s;
-    return s;
+//Returns the name of the wire
+string Wire::getName() const {
+    return name;
 }
 
-//STUB!
-vector<Gate*> Wire::getDrives() {
-    vector<Gate *> g;
-    return g;
+//Returns a reference to the drivers
+//FIX ME! May need to return by reference
+vector<Gate*> Wire::getDrives() const {
+    return drives;
 }
 
-//STUB!
-int Wire::getIndex() {
-    int i;
-    return i;
+//Returns the index of the wire
+int Wire::getIndex() const {
+    return index;
 }
 
-//STUB!
-vector<state>  Wire::getHistory() {
-    vector<state> s;
-    return s;
+//Returns the wire history
+//FIX ME! May need to return by reference
+vector<state>  Wire::getHistory() const {
+    return history;
 }
