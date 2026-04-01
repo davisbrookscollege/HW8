@@ -152,4 +152,5 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
         out->setVal(gateState); //sets output wire accordingly
         return gateState;
     }
+    return gateState;
 }
