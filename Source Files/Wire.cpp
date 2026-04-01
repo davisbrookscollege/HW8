@@ -1,3 +1,7 @@
+/*
+Authors: Mark St. Michell and Davis Brooks
+*/
+
 #include <iostream>
 #include <string>
 #include "Wire.h"
