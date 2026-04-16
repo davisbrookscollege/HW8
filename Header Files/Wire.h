@@ -5,6 +5,9 @@ Date: Spring 2026
 Purpose:
 */
 
+#ifndef WIRE_H
+#define WIRE_H
+
 #include <string>
 #include <vector>
 
@@ -34,3 +37,5 @@ private:
     static int numWires;
     vector<state> history;
 };
+
+#endif

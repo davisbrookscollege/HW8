@@ -5,6 +5,9 @@ Date: Spring 2026
 Purpose:
 */
 
+#ifndef GATE_H
+#define GATE_H
+
 #include "Wire.h"
 
 class Gate {
@@ -22,3 +25,5 @@ private:
     Wire *in1, *in2, *out;
     int delay;
 };
+
+#endif

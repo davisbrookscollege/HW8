@@ -5,6 +5,9 @@ Date: Spring 2026
 Purpose:
 */
 
+#ifndef EVENT_H
+#define EVENT_H
+
 #include "Wire.h"
 
 class Event {
@@ -25,3 +28,5 @@ private:
     Wire::state state;  //State the wire should be changed too
 
 };
+
+#endif
