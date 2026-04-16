@@ -10,11 +10,20 @@ bin/
 obj/
 
 # Shared OS clutter
-.DS_Store
 Thumbs.db
 Desktop.ini
 
 # Compiler and linker outputs
+# macOS-specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+.Spotlight-V100/
+.Trashes/
+._*
+
+# Visual Studio / MSVC build outputs
 *.exe
 *.obj
 *.o
