@@ -22,7 +22,8 @@ public:
 
 private:
 
-    static int orderOfArrival;
+    static int numEvents;
+    int orderOfArrival;
     int time;           // What time the event will execute
     int wire;           //Which wire it's affecting
     Wire::state state;  //State the wire should be changed too
