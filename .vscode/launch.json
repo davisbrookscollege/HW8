@@ -2,15 +2,15 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug active C++ file",
+      "name": "Debug HW8",
       "type": "cppvsdbg",
       "request": "launch",
-      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+      "program": "${workspaceFolder}\\build\\HW8.exe",
       "args": [],
       "stopAtEntry": false,
-      "cwd": "${fileDirname}",
+      "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "preLaunchTask": "C/C++: build active file"
+      "preLaunchTask": "C/C++: build project"
     }
   ]
 }
