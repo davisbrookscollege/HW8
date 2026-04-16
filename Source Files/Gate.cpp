@@ -5,7 +5,7 @@ Dates: Spring 2026
 Purpose: This is the implementation for the gate class.
 */
 
-#include "Gate.h"
+#include "../Header Files/Gate.h"
 
 Gate::Gate(type gateType, int delay, Wire *input1, Wire *input2, Wire *output):
     gateType(gateType), delay(delay), in1(input1), in2(input2), out(output)

@@ -1,13 +1,20 @@
 .vs/
 .idea/
 ipch/
+build/
+Debug/
+Release/
+x64/
+x86/
+bin/
+obj/
 
 # Shared OS clutter
 .DS_Store
 Thumbs.db
 Desktop.ini
 
-# Visual Studio / MSVC build outputs
+# Compiler and linker outputs
 *.exe
 *.obj
 *.o
@@ -17,26 +24,16 @@ Desktop.ini
 *.lib
 *.exp
 *.idb
+*.dSYM/
+
+# IDE user files and databases
 *.vcxproj.user
 *.suo
 *.user
 *.VC.db
 *.VC.opendb
 
-# Common build folders
-Debug/
-Release/
-x64/
-x86/
-bin/
-obj/
-
-# Local logs
+# Local logs and stray run artifacts
 debug.log
 *.log
-
-# Local macOS build artifact in this repo
 /HW8
-
-# macOS debug bundles
-*.dSYM/
