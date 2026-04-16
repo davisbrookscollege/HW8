@@ -1,5 +1,10 @@
-//Header file test
-//MORE comments!
+/*
+Authors: Mark St. Michell and Davis Brooks
+Date: Spring 2026
+
+Purpose:
+*/
+
 #include "Wire.h"
 
 class Gate {
