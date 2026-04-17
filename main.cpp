@@ -8,6 +8,7 @@ Purpose:
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <queue>
 #include "Header Files/Event.h"
 #include "Header Files/Wire.h"
 #include "Header Files/Gate.h"
@@ -25,8 +26,10 @@ int main () {
     //3. Simulate
     //4. Print results
 
+    
     vector<Wire*> wires; //vector of wires
-    priority_queue<Event> events;
+    priority_queue<Event> events; 
+
     initializeCircuit(events, wires); //reads files, then initializes wires, gates, and known events
 
     while (!events.empty()) {
@@ -40,9 +43,11 @@ int main () {
     return 0;
 }
 
+
 void initializeCircuit(priority_queue<Event>& events, vector<Wire*> wires) {
 
 }
+
 
 void handleEvent(Event e) {
 
