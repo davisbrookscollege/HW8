@@ -13,12 +13,13 @@ Purpose:
 class Event {
 public:
 
+    Event();
     Event(int wire, int time, Wire::state state);
-    bool operator<(Event &rhs);
-    int getOOA();
-    int getTime();
-    int getWire();
-    Wire::state getState();
+    bool operator<(const Event &rhs) const;
+    int getOOA() const;
+    int getTime() const;
+    int getWire() const;
+    Wire::state getState() const;
 
 private:
 

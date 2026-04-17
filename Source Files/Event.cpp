@@ -5,17 +5,23 @@ Date: Spring 2026
 Purpose:
 */
 
-#include "Event.h";
+#include "Event.h"
+#include "Wire.h"
 
 int Event::numEvents = 0;
 
-Event::Event(int w, int t, Wire::state s) : wire(w), time(t), state(s) {
+Event::Event(){ }
 
+Event::Event(int inputWire, int inputTime, Wire::state inputState) {
+
+    wire = inputWire;
+    time = inputTime;
+    state = inputState;
     orderOfArrival = numEvents;
     numEvents++;
 }
 
-bool Event::operator<(Event &rhs){
+bool Event::operator<(const Event &rhs) const {
 
     if (time == rhs.getTime()){
         return orderOfArrival < rhs.getOOA();
@@ -25,12 +31,20 @@ bool Event::operator<(Event &rhs){
     }
 }
 
-int Event::getOOA(){
+int Event::getOOA() const {
     return orderOfArrival;
 }
 
-int Event::getTime(){
+int Event::getTime() const{
     return time;
+}
+
+int Event::getWire() const{
+    return time;
+}
+
+Wire::state Event::getState() const{
+    return state;
 }
 
 

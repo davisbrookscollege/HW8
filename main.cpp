@@ -39,6 +39,13 @@ int main () {
     printCircuit(wires);
     */
 
+    Event t1(1,1,Wire::state::HI);
+    //Event t2(3,4,Wire::LO);
+
+    //bool hey = t1 < t2;
+
+    //cout << hey << endl;
+
     return 0;
 }
 
