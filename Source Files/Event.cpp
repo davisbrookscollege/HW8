@@ -24,10 +24,10 @@ Event::Event(int inputWire, int inputTime, Wire::state inputState) {
 bool Event::operator<(const Event &rhs) const {
 
     if (time == rhs.getTime()){
-        return orderOfArrival < rhs.getOOA();
+        return orderOfArrival > rhs.getOOA();
     }
     else {
-        return time < rhs.getTime();
+        return time > rhs.getTime();
     }
 }
 

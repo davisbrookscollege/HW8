@@ -16,7 +16,7 @@ Purpose:
 
 using namespace std;
 
-//void initializeCircuit(priority_queue<Event>& events, vector<Wire*> wires);
+void initializeCircuit(priority_queue<Event>& events, vector<Wire*> wires);
 void printCircuit(vector<Wire*> wires);
 void handleEvent(Event e);
 
@@ -28,11 +28,9 @@ int main () {
 
     
     vector<Wire*> wires; //vector of wires
+    priority_queue<Event> events; 
 
-
-    
-
-    //initializeCircuit(events, wires); //reads files, then initializes wires, gates, and known events
+    initializeCircuit(events, wires); //reads files, then initializes wires, gates, and known events
 
     while (!events.empty()) {
 	    Event e = events.top();
@@ -41,21 +39,14 @@ int main () {
     }
 
     printCircuit(wires);
-    
-
-    Event t1(1,1,Wire::state::HI);
-    Event t2(3,4,Wire::LO);
-
-    bool hey = t1 < t2;
-
-    cout << "test, should be TRUE:" << endl;
-    cout << hey << endl;
 
     return 0;
 }
 
 
-//void initializeCircuit(priority_queue<Event>& events, vector<Wire*> wires) {}
+void initializeCircuit(priority_queue<Event>& events, vector<Wire*> wires) {
+
+}
 
 
 void handleEvent(Event e) {
