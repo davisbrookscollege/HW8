@@ -21,7 +21,7 @@ using namespace std;
 void initializeCircuitEvents(priority_queue<Event>& events, string fileName);
 void initalizeWiresAndGates(vector<Wire*>& wires, string fileName);
 void initializeCircuit(priority_queue<Event>& events, vector<Wire*>& wires, string circuitName);
-void printCircuit(vector<Wire*> wires);
+void printCircuit(const vector<Wire*>& wires);
 void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events);
 Wire* getWireByIndex(vector<Wire*> wires, int wireIndex);
 
@@ -220,9 +220,10 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
     int wireIndex = e.getWire();
     Wire* wire = getWireByIndex(wires, wireIndex);
     vector<Gate*> gates = wire->getDrives();
+    int time = e.getTime();
 
 //Add wire value to the history
-    wire->setHistory(wire->getState());
+    wire->setHistory(wire->getState(), time);
 
 //set new state of wire AT THE END
     wire->setVal(e.getState());
@@ -255,8 +256,10 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
     }
 }
 
-void printCircuit(vector<Wire*> wires) {
-
+void printCircuit(const vector<Wire*>& wires) {
+    for (int i = 0; i < wires.size(); ++i) {
+        
+    }
 }
 
 //Returns a wire given an index
