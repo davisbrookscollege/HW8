@@ -19,10 +19,11 @@ class Wire {
 
 public:
     enum state {HI, LO, UND};
-    Wire(state initState = UND, string name = "", vector<Gate*> drives = {});
+    Wire(state initState = UND, string name = "", int index = -1);
     void setVal(state);
     void setHistory(state);
-    void setDrives(vector<Gate*>); 
+    void setDrives(vector<Gate*>);          //Set all of the drives (not sure if we need this one)
+    void pushDrive(Gate*);                  //Adds one drive
     state getState() const;
     string getName() const;
     vector<Gate*> getDrives() const;

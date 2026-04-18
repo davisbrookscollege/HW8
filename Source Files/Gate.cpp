@@ -7,9 +7,32 @@ Purpose: This is the implementation for the gate class.
 
 #include "../Header Files/Gate.h"
 
-Gate::Gate(type gateType, int delay, Wire *input1, Wire *input2, Wire *output):
-    gateType(gateType), delay(delay), in1(input1), in2(input2), out(output)
-{}
+Gate::Gate(string gateInput, int delay, Wire *input1, Wire *input2, Wire *output):
+    gateTypeStr(gateInput), delay(delay), in1(input1), in2(input2), out(output) {
+    
+    //Takes a string as gateInput and converts it to a input type
+    if (gateInput == "NOT") {
+        gateType = type::NOT;
+    }
+    else if (gateInput == "AND") {
+        gateType = type::AND;
+    }
+    else if (gateInput == "NAND") {
+        gateType = type::NAND;
+    }
+    else if (gateInput == "OR") {
+        gateType = type::OR;
+    }
+    else if (gateInput == "NOR") {
+        gateType = type::NOR;
+    }
+    else if (gateInput == "XOR") {
+        gateType = type::XOR;
+    }
+    else {
+        gateType = type::XNOR;
+    }
+}
 
 int Gate::getDelay() const {
     return delay;
@@ -153,4 +176,8 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
         return gateState;
     }
     return gateState;
+}
+
+string Gate::getGateTypeStr() {
+    return gateTypeStr;
 }
