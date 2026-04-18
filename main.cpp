@@ -22,7 +22,7 @@ void initializeCircuitEvents(priority_queue<Event>& events, string fileName);
 void initalizeWiresAndGates(vector<Wire*>& wires, string fileName);
 void initializeCircuit(priority_queue<Event>& events, vector<Wire*>& wires, string circuitName);
 void printCircuit(vector<Wire*> wires);
-void handleEvent(Event e);
+void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events);
 Wire* getWireByIndex(vector<Wire*> wires, int wireIndex);
 
 int main () {
@@ -48,7 +48,7 @@ int main () {
     while (!events.empty()) {
 	    Event e = events.top();
 	    events.pop(); //remove event
-	    handleEvent(e); //set the wire values as specified in e AT THE END of this function
+	    handleEvent(wires, e, events); //set the wire values as specified in e AT THE END of this function
     }
 
     printCircuit(wires);
@@ -140,8 +140,6 @@ void initalizeWiresAndGates(vector<Wire*>& wires, string fileName) {
     int ouputInt;
     Wire *output;
 
-    vector<Gate*> wireDrives;
-
     //Open the file
     inFS.open("Circuit Files/" + fileName + ".txt");
 
@@ -217,8 +215,44 @@ void initializeCircuit(priority_queue<Event>& events, vector<Wire*>& wires, stri
     initalizeWiresAndGates(wires, circuitName);
 }
 
-void handleEvent(Event e) {
+void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
 
+    int wireIndex = e.getWire();
+    Wire* wire = getWireByIndex(wires, wireIndex);
+    vector<Gate*> gates = wire->getDrives();
+
+//Add wire value to the history
+    wire->setHistory(wire->getState());
+
+//set new state of wire AT THE END
+    wire->setVal(e.getState());
+
+//evaluate gate(s) (don't forget gate delay)
+    //for loop iterates through all the gates which are driven by the wire.
+    //Then creates a new event if its output wire is changed
+    for (int i = 0; i < gates.size(); ++i) {
+        
+        //the following lines retrieve the information needed to evalute the gate
+        Gate* curGate = gates.at(i);
+        Wire* outputWire = curGate->getOutput();
+        Gate::type gateType = curGate->getType();
+        Wire* input1 = curGate->getInput1();
+        Wire* input2 = curGate->getInput2();
+        int delay = curGate->getDelay();
+        Wire::state oldState = outputWire->getState();        
+        
+        //evaluate gate (also sets output wire)
+        Wire::state newState = curGate->evaluate(gateType, delay, input1, input2, outputWire);
+
+        //create new event if output changes
+        if (newState != oldState) {
+            int nextTime = e.getTime() + curGate->getDelay();
+            int outWireIndex = outputWire->getIndex();
+
+            Event futureEvent = Event(outWireIndex, nextTime, newState);
+            events.push(futureEvent);
+        }
+    }
 }
 
 void printCircuit(vector<Wire*> wires) {
