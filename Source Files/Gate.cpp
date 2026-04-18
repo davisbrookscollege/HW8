@@ -38,6 +38,20 @@ int Gate::getDelay() const {
     return delay;
 }
 
+Gate::type Gate::getType() const {
+    return gateType;
+}
+
+Wire* Gate::getInput1() {
+    return in1;
+}
+
+Wire* Gate::getInput2() {
+    return in2;
+}
+
+/*
+
 //returns a pointer to either input wire 1 or input wire 2
 Wire* Gate::getInput(int wireNum) const {
     if (wireNum == in1->getIndex()) {
@@ -46,13 +60,13 @@ Wire* Gate::getInput(int wireNum) const {
     return in2;
 }
 
+*/
+
 //returns a pointer to the output wire
 Wire* Gate::getOutput() const {
     return out;
 }
 
-/*We may not need delay as a parameter. I am thinking that should 
-be accounted for in the setVal function in the wire class*/
 //evaluates the state of the gate based on the logic provided as parameters
 Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire *out) {
     Wire::state gateState = Wire::state::UND;
@@ -68,7 +82,6 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
         }
         //no need to deal with undefined state because gateState is initialized to UND
         
-        out->setVal(gateState); //sets output wire accordingly
         return gateState;
     }
 
@@ -83,8 +96,7 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
             gateState = Wire::state::HI;
         }
         //no need to deal with undefined state because gateState is initialized to UND
-        
-        out->setVal(gateState); //sets output wire accordingly
+
         return gateState;
     }
 
@@ -99,8 +111,7 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
             gateState = Wire::state::HI;
         }
         //no need to deal with undefined state because gateState is initialized to UND
-        
-        out->setVal(gateState); //sets output wire accordingly
+
         return gateState;
     }
 
@@ -115,8 +126,7 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
             gateState = Wire::state::LO;
         }
         //no need to deal with undefined state because gateState is initialized to UND
-        
-        out->setVal(gateState); //sets output wire accordingly
+
         return gateState;
     }
 
@@ -131,8 +141,7 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
             gateState = Wire::state::LO;
         }
         //no need to deal with undefined state because gateState is initialized to UND
-        
-        out->setVal(gateState); //sets output wire accordingly
+
         return gateState;
     }
 
@@ -151,8 +160,7 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
             gateState = Wire::state::LO;
         }
         //no need to deal with undefined state because gateState is initialized to UND
-        
-        out->setVal(gateState); //sets output wire accordingly
+
         return gateState;
     }
 
@@ -171,8 +179,7 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
             gateState = Wire::state::HI;
         }
         //no need to deal with undefined state because gateState is initialized to UND
-        
-        out->setVal(gateState); //sets output wire accordingly
+
         return gateState;
     }
     return gateState;
