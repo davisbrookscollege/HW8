@@ -258,7 +258,19 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
 
 void printCircuit(const vector<Wire*>& wires) {
     for (int i = 0; i < wires.size(); ++i) {
-        
+        cout << "Wire " << wires.at(i)->getName() << ": ";
+        for (int j = 0; j < wires.at(i)->getHistory().size(); ++j) {
+            if (wires.at(i)->getHistory().at(j) == State::HI) {
+                cout << "—";
+            }
+            else if (wires.at(i)->getHistory().at(j) == State::LO) {
+                cout << "_";
+            }
+            else if (wires.at(i)->getHistory().at(j) == State::UND) {
+                cout << "X";
+            }
+        }
+        cout << endl;
     }
 }
 
