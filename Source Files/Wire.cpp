@@ -16,10 +16,10 @@ typedef Wire::state state;
 int Wire::numWires = -1;
 
 //Constructs the class with minimal default values
-Wire::Wire(state initState, string initName, vector<Gate*> initDrives):
-    curState(initState), name(initName), drives(initDrives) {
+Wire::Wire(state initState, string initName, int initIndex):
+    curState(initState), name(initName), index(initIndex) {
+    drives = {};
     numWires++;
-    index = numWires;
     history = {};
 }
 
@@ -36,6 +36,10 @@ void Wire::setHistory(state inputState) {
 //Assignes drives with the input drives
 void Wire::setDrives(vector<Gate*> inputDrives) {
     drives = inputDrives;
+}
+
+void Wire::pushDrive(Gate *gate) {
+    drives.push_back(gate);
 }
 
 //Returns the current state of the wire;
