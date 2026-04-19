@@ -40,7 +40,7 @@ int Event::getTime() const{
 }
 
 int Event::getWire() const{
-    return time;
+    return wire;
 }
 
 Wire::state Event::getState() const{
