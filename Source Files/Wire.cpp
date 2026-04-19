@@ -21,7 +21,7 @@ Wire::Wire(state initState, string initName, int initIndex):
     drives = {};
     numWires++;
     history = {};
-    lastModifiedTime = 0;
+    lastModifiedTime = -1;
     prevState = state::UND;
 }
 
@@ -33,7 +33,7 @@ void Wire::setState(state inputState) {
 //Pushes back 1 state to the history
 void Wire::setHistory(state inputState, int setTime) {
 
-    int curTime = lastModifiedTime;
+    int curTime = lastModifiedTime + 1;
 
     while (curTime < setTime) {
 

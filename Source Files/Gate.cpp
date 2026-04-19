@@ -102,13 +102,13 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
 
     //NAND gate logic
     else if (gateStyle == NAND) {
-        if (in1->getState() == Wire::state::HI || //either are high
-            in2->getState() == Wire::state::HI) {
-            gateState = Wire::state::LO;
-        }
-        else if (in1->getState() == Wire::state::LO && //both are Low
-                 in2->getState() == Wire::state::LO) {
+        if (in1->getState() == Wire::state::LO || //either are low
+            in2->getState() == Wire::state::LO) {
             gateState = Wire::state::HI;
+        }
+        else if (in1->getState() == Wire::state::HI && //both are High
+                 in2->getState() == Wire::state::HI) {
+            gateState = Wire::state::LO;
         }
         //no need to deal with undefined state because gateState is initialized to UND
 
