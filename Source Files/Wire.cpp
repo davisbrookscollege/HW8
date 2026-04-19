@@ -37,6 +37,7 @@ void Wire::setHistory(state inputState, int setTime) {
     while (curTime < setTime) {
 
         history.push_back(curState);
+        curTime++;
     }
 
     history.push_back(inputState);
