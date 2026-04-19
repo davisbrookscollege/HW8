@@ -25,7 +25,7 @@ Wire::Wire(state initState, string initName, int initIndex):
 }
 
 //Sets the current state of the wire
-void Wire::setVal(state inputState) {
+void Wire::setState(state inputState) {
     curState = inputState;
 }
 
@@ -38,6 +38,7 @@ void Wire::setHistory(state inputState, int setTime) {
 
         history.push_back(curState);
         curTime++;
+
     }
 
     history.push_back(inputState);

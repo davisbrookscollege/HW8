@@ -18,12 +18,13 @@ typedef Gate::type gateType;
 
 using namespace std;
 
-void initializeCircuitEvents(priority_queue<Event>& events, string fileName);
+void initializeCircuitEvents(priority_queue<Event>& events, string fileName, const vector<Wire*>& wires);
 void initalizeWiresAndGates(vector<Wire*>& wires, string fileName);
 void initializeCircuit(priority_queue<Event>& events, vector<Wire*>& wires, string circuitName);
 void printCircuit(const vector<Wire*>& wires);
 void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events);
-Wire* getWireByIndex(vector<Wire*> wires, int wireIndex);
+Wire* getWireByIndex(vector<Wire*>& wires, int wireIndex);
+int getWireIndexByName(const vector<Wire*>& wires, string name);
 
 int main () {
     //1. Read CD
@@ -35,15 +36,7 @@ int main () {
     vector<Wire*> wires; //vector of wires
     priority_queue<Event> events; 
 
-    initializeCircuit(events, wires, "flipflop"); //reads files, then initializes wires, gates, and known events
-
-    //This output purely for testing purposes
-    for (Wire *w : wires) {
-        cout << w->getName() << " " << w->getIndex() << endl;
-        for (Gate *g : w->getDrives()) {
-            cout << "    " << g->getGateTypeStr() << endl;
-        }
-    }
+    initializeCircuit(events, wires, "circuit0"); //reads files, then initializes wires, gates, and known events
 
     while (!events.empty()) {
 	    Event e = events.top();
@@ -58,7 +51,7 @@ int main () {
 
 
 
-void initializeCircuitEvents(priority_queue<Event>& events, string fileName) {
+void initializeCircuitEvents(priority_queue<Event>& events, string fileName, const vector<Wire*>& wires) {
 
     ifstream inFS;
     string wordStr;
@@ -69,8 +62,6 @@ void initializeCircuitEvents(priority_queue<Event>& events, string fileName) {
     int time;
     int stateInt;
     State state;
-
-    int wireDummy = 0;
 
     //Open the file
     inFS.open("Circuit Files/" + fileName + "_v.txt");
@@ -89,9 +80,9 @@ void initializeCircuitEvents(priority_queue<Event>& events, string fileName) {
         inFS >> wordStr;
 
         //Get the wire
-        //FIX ME! Need to use the already created wire's list to figure out which wire this string refers to.
+        //FIX ME: use wire's name to get the wire
         inFS >> wireStr;
-        wire = wireDummy++;
+        wire = getWireIndexByName(wires, wireStr);
 
         //Get the time
         inFS >> timeStr;
@@ -195,8 +186,6 @@ void initalizeWiresAndGates(vector<Wire*>& wires, string fileName) {
             inFS >> outputStr;
             output = getWireByIndex(wires, stoi(outputStr));
 
-            cout << wordStr << " " << delay << " " << input1Str << " " << input2Str << " " << outputStr << endl;
-
             //Intialize the gate
             Gate *g = new Gate(wordStr, delay, input1, input2, output);
 
@@ -211,8 +200,8 @@ void initalizeWiresAndGates(vector<Wire*>& wires, string fileName) {
 
 void initializeCircuit(priority_queue<Event>& events, vector<Wire*>& wires, string circuitName) {
 
-    initializeCircuitEvents(events, circuitName);
     initalizeWiresAndGates(wires, circuitName);
+    initializeCircuitEvents(events, circuitName, wires);
 }
 
 void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
@@ -223,10 +212,8 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
     int time = e.getTime();
 
 //Add wire value to the history
+    wire->setState(e.getState());
     wire->setHistory(wire->getState(), time);
-
-//set new state of wire AT THE END
-    wire->setVal(e.getState());
 
 //evaluate gate(s) (don't forget gate delay)
     //for loop iterates through all the gates which are driven by the wire.
@@ -261,7 +248,7 @@ void printCircuit(const vector<Wire*>& wires) {
         cout << "Wire " << wires.at(i)->getName() << ": ";
         for (int j = 0; j < wires.at(i)->getHistory().size(); ++j) {
             if (wires.at(i)->getHistory().at(j) == State::HI) {
-                cout << "—";
+                cout << "-";
             }
             else if (wires.at(i)->getHistory().at(j) == State::LO) {
                 cout << "_";
@@ -276,7 +263,7 @@ void printCircuit(const vector<Wire*>& wires) {
 
 //Returns a wire given an index
 //If the wire doesn't exist it creates a new one
-Wire* getWireByIndex(vector<Wire*> wires, int wireIndex) {
+Wire* getWireByIndex(vector<Wire*>& wires, int wireIndex) {
 
     Wire *curWire = nullptr;
     Wire *outputWire = nullptr;
@@ -295,4 +282,19 @@ Wire* getWireByIndex(vector<Wire*> wires, int wireIndex) {
     }
 
     return outputWire;
+}
+
+int getWireIndexByName(const vector<Wire*>& wires, string name) {
+
+    Wire *curWire = nullptr;
+    int index = -1;
+
+    for (int i = 0; i < wires.size(); i++){
+        curWire = wires.at(i);
+        if (curWire->getName() == name) {
+            index = curWire->getIndex();
+        }
+    }
+
+    return index;
 }
