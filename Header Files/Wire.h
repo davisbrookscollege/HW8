@@ -32,6 +32,7 @@ public:
 
 private:
     state curState;
+    state prevState;
     string name;
     vector<Gate*> drives;
     int index;

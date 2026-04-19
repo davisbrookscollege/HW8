@@ -22,6 +22,7 @@ Wire::Wire(state initState, string initName, int initIndex):
     numWires++;
     history = {};
     lastModifiedTime = 0;
+    prevState = state::UND;
 }
 
 //Sets the current state of the wire
@@ -36,13 +37,14 @@ void Wire::setHistory(state inputState, int setTime) {
 
     while (curTime < setTime) {
 
-        history.push_back(curState);
+        history.push_back(prevState);
         curTime++;
 
     }
 
     history.push_back(inputState);
     lastModifiedTime = setTime;
+    prevState = inputState;
 }
 
 //Assignes drives with the input drives
