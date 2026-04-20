@@ -36,7 +36,7 @@ int main () {
     vector<Wire*> wires; //vector of wires
     priority_queue<Event> events; 
 
-    initializeCircuit(events, wires, "circuit2"); //reads files, then initializes wires, gates, and known events
+    initializeCircuit(events, wires, "circuit0"); //reads files, then initializes wires, gates, and known events
 
     while (!events.empty()) {
 	    Event e = events.top();
@@ -239,6 +239,7 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
             //Evaluates gate
             Wire::state newState = curGate->evaluate(gateType, delay, input1, input2, outputWire);
 
+/*
             eventsCopy = events;
 
             for (int i = 0; i < eventsCopy.size(); i++) {
@@ -255,6 +256,14 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
                 Event futureEvent = Event(outWireIndex, nextTime, newState);
                 events.push(futureEvent);
             }
+
+*/
+            int outWireIndex = outputWire->getIndex();
+
+            //creates new event
+            Event futureEvent = Event(outWireIndex, nextTime, newState);
+            events.push(futureEvent);  
+
         }
     }
 }
