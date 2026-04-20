@@ -206,6 +206,7 @@ void initializeCircuit(priority_queue<Event>& events, vector<Wire*>& wires, stri
 
 void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
 
+    //gather values needed to evaluate the event
     int wireIndex = e.getWire();
     Wire* wire = getWireByIndex(wires, wireIndex);
     vector<Gate*> gates = wire->getDrives();
@@ -213,56 +214,51 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
     bool newEvent = true;
     priority_queue<Event> eventsCopy = events;
 
-//Add wire value to the history
+    //Add wire value to the history
     wire->setState(e.getState());
     wire->setHistory(wire->getState(), time);
 
-    //FIX ME!!! Not sure if need to account for infinite loops.
+    //Ensures no infinite loops
     if (time < 20){
 
-    //evaluate gate(s) (don't forget gate delay)
-    //for loop iterates through all the gates which are driven by the wire.
-    //Then creates a new event if its output wire is changed
-    for (int i = 0; i < gates.size(); ++i) {
+        //evaluate gate(s) (don't forget gate delay)
+        //for loop iterates through all the gates which are driven by the wire.
+        //Then creates a new event if its output wire is changed
+        for (int i = 0; i < gates.size(); ++i) {
         
-        //the following lines retrieve the information needed to evalute the gate
-        Gate* curGate = gates.at(i);
-        Wire* outputWire = curGate->getOutput();
-        Gate::type gateType = curGate->getType();
-        Wire* input1 = curGate->getInput1();
-        Wire* input2 = curGate->getInput2();
-        int delay = curGate->getDelay();
+            //the following lines retrieve the information needed to evalute the gate
+            Gate* curGate = gates.at(i);
+            Wire* outputWire = curGate->getOutput();
+            Gate::type gateType = curGate->getType();
+            Wire* input1 = curGate->getInput1();
+            Wire* input2 = curGate->getInput2();
+            int delay = curGate->getDelay();
 
-        /*
-        Right now this only checks if the future state is what it is now.
-        This needs to change it shouldn't create and event if there's already an event at the time it's assigned too.
-        */
-
-        Wire::state oldState = outputWire->getState();
+            Wire::state oldState = outputWire->getState();
         
-        //evaluate gate (also sets output wire)
-        Wire::state newState = curGate->evaluate(gateType, delay, input1, input2, outputWire);
+            //evaluate gate (also sets output wire)
+            Wire::state newState = curGate->evaluate(gateType, delay, input1, input2, outputWire);
 
-        //create new event if there isn't one already
-        int nextTime = e.getTime() + curGate->getDelay();
+        
+            int nextTime = e.getTime() + curGate->getDelay();
 
-        eventsCopy = events;
+            eventsCopy = events;
 
-        for (int i = 0; i < events.size(); i++) {
-            if (eventsCopy.top().getTime() == nextTime && eventsCopy.top().getWire() == outputWire->getIndex()){
-                newEvent = false;
+            for (int i = 0; i < eventsCopy.size(); i++) {
+                if (eventsCopy.top().getTime() == nextTime && eventsCopy.top().getWire() == outputWire->getIndex()){
+                    newEvent = false;
+                }
+                eventsCopy.pop();
             }
-            eventsCopy.pop();
+
+            //create new event if there isn't one already
+            if (newEvent) {
+                int outWireIndex = outputWire->getIndex();
+
+                Event futureEvent = Event(outWireIndex, nextTime, newState);
+                events.push(futureEvent);
+            }
         }
-
-
-        if (newEvent) {
-            int outWireIndex = outputWire->getIndex();
-
-            Event futureEvent = Event(outWireIndex, nextTime, newState);
-            events.push(futureEvent);
-        }
-    }
     }
 }
 
