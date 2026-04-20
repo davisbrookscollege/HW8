@@ -132,13 +132,13 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
 
     //NOR gate logic
     else if (gateStyle == NOR) {
-        if (in1->getState() == Wire::state::LO || //either are LO
-            in2->getState() == Wire::state::LO) {
-            gateState = Wire::state::HI;
-        }
-        else if (in1->getState() == Wire::state::HI && //both are HI
+        if (in1->getState() == Wire::state::HI || //either are HI
             in2->getState() == Wire::state::HI) {
             gateState = Wire::state::LO;
+        }
+        else if (in1->getState() == Wire::state::LO && //both are LO
+            in2->getState() == Wire::state::LO) {
+            gateState = Wire::state::HI;
         }
         //no need to deal with undefined state because gateState is initialized to UND
 
