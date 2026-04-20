@@ -233,14 +233,11 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
             Wire* input1 = curGate->getInput1();
             Wire* input2 = curGate->getInput2();
             int delay = curGate->getDelay();
-
-            Wire::state oldState = outputWire->getState();
-        
-            //evaluate gate (also sets output wire)
-            Wire::state newState = curGate->evaluate(gateType, delay, input1, input2, outputWire);
-
-        
             int nextTime = e.getTime() + curGate->getDelay();
+            Wire::state oldState = outputWire->getState();
+
+            //Evaluates gate
+            Wire::state newState = curGate->evaluate(gateType, delay, input1, input2, outputWire);
 
             eventsCopy = events;
 
