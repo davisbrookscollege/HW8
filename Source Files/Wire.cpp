@@ -35,11 +35,20 @@ void Wire::setHistory(state inputState, int setTime) {
 
     int curTime = lastModifiedTime + 1;
 
-    while (curTime < setTime) {
+    //If two wires change at the same time two events are created.
+    //This can cause the output of a gate to change twice in a split second.
+    //Only the final lasting change should be appended to history.
 
-        history.push_back(prevState);
-        curTime++;
+    if (lastModifiedTime == setTime) {
+        history.erase(history.end() - 1);
+    }
+    else {
+        while (curTime < setTime) {
 
+            history.push_back(prevState);
+            curTime++;
+
+        }
     }
 
     history.push_back(inputState);
