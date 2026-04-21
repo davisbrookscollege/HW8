@@ -18,7 +18,7 @@ class Gate;
 class Wire {
 
 public:
-    enum state {HI, LO, UND, DEFAULT};
+    enum state {HI, LO, UND, DEFAULTED};
     Wire(state initState = UND, string name = "", int index = -1);
     void setState(state);
     void setHistory(state, int);            //State and time it's set

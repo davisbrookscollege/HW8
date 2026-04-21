@@ -18,7 +18,7 @@ public:
     Gate(string gateInput, int delay, Wire *in1, Wire *in2, Wire *out); //FIXME: we may need to default *in2 for not gates
     int getDelay() const;
     Wire* getOutput() const;
-    Wire::state evaluate(Wire::state futureState = Wire::state::DEFAULT);
+    Wire::state evaluate(Wire* inputWire, Wire::state futureState = Wire::state::DEFAULTED);
     string getGateTypeStr();
     type getType() const;
     Wire* getInput1();

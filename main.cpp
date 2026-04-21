@@ -214,18 +214,20 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
     vector<Gate*> gates = wire->getDrives();
     int time = e.getTime();
 
+    //runs through every gate that is driven by the wire we're handling
     for (int i = 0; i < gates.size(); ++i) {
 
         Gate* curGate            = gates.at(i);
         Wire* outputWire         = curGate->getOutput();
         int nextTime             = e.getTime() + curGate->getDelay();
                 
+        // Evaluate the future state of the gate before the change (what it would be if the event did not occur)
+        Wire::state past         = curGate->evaluate(wire);
 
-        Wire::state past         = curGate->evaluate();                        // Evaluate the future state of the gate before the change (what it would be if the event did not occur)
-        Wire::state future       = curGate->evaluate(e.getState()); // Evaluate the future state of the gate after the change (what it will be after the event occurs), but do not actually apply the change to the input wire
-        bool causesChange = (past != future);
+        // Evaluate the future state of the gate after the change (what it will be after the event occurs), but do not actually apply the change to the input wire
+        Wire::state future       = curGate->evaluate(wire, e.getState());
 
-        if (causesChange) {
+        if (past != future) {
             int outWireIndex = outputWire->getIndex();
 
             Event futureEvent = Event(outWireIndex, nextTime, future);
@@ -236,7 +238,7 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
     wire->setState(e.getState()); // Set the wire value at the end
     wire->setHistory(wire->getState(), time);
 
-            ///////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////
 
 
 
