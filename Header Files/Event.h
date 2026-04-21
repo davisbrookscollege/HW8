@@ -2,7 +2,7 @@
 Authors: Mark St. Michell and Davis Brooks
 Date: Spring 2026
 
-Purpose:
+Purpose: Event class specification file.
 */
 
 #ifndef EVENT_H

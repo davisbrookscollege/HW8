@@ -19,13 +19,13 @@ I am unaware of any security vulnerabilities or ways our code could be exploited
 # Implementation
 Outline any interesting implementation details.
 
-
+One interesting implementation detail for this project is how we wrote the evaluate() function for the gate class. We ended up defaulting one of the two parameters to allow us to evaluate a gate with a potential input, without setting the input wire. This helped us fix a big error where our program would break when it experienced feedback in the circuit. To complete this implementation, we added a 4th wire state called DEFAULTED, which we used to determine if we were calling the function to evaluate the current wire's state, or a possible future state. Once we implemented this, we were able to fix the feedback error we had experienced. As mentioned above, one of the major implementation decisions was the choice to keep int main() short and readable using functions. One valuable function we wrote in this section was called getWireByIndex, which returned a pointer to a wire based on an inputed index. This was very valuable because it helped us organize our wires according to a set index for each wire. Keeping this consistent and organized helped us ensure we were using the right wire each time we evaluated an event.
 # Testing
 Explain how you tested your program, enumerating the tests if possible.
 Explain why your test set was sufficient to believe that the software is working properly,
 i.e., what were the range of possibilities of errors that you were testing for.
 
-
+During initial development, there wasn't a lot of testing we could do without the basic logic of the program written. With this in mind, we ensured to add frequent comments so that we could review our code. We also ensured to keep the program free of compilation errors. When we had finished the program, we spent a lot of time testing the provided circuit files. We ran through these and found various errors. Primarily our errors were in the event handling stage of the program. After we fixed these, we ran through all of the provided files and compared our output to their known solutions. We believe this was sufficient testing because the provided files test each of the primary gates' functionality and our program's ability to handle feedback.
 # AI Use
 How did you use generative AI in this project?  Be specific!
 
@@ -33,7 +33,7 @@ The assignment description had a strict no AI policy, so we did not use AI.
 # Summary/Conclusion
 Present your results. Did it work properly? Are there any limitations? If it is an analysis-type project, this section may be significantly longer than for a simple implementation-type project.
 
-
+The program works exactly as expected. The program is a simple version of a logic gate simulator, so there are many limitations, such as the fact that the simulation must be capped to a specific simulation length so that feedback loops don't evaluate indefinitely. The logic also requires a very specific format of the text files in order to parse the inputs correctly.Our program also doesn't take account if the user inputs a faulty file name. Since this is a terminal based program, this isn't an issue because the user can simply rerun the program and fix their input.
 # Lessons Learned
 List any lessons learned, especially in regards to AI use.
 
@@ -41,4 +41,4 @@ One of the biggest lessons for this project was learning how to code in a group 
 # Time Spent
 Approximately how much time did you spend on this project?
 
-We have spent approximately 10 hours each on this project.
+We each have spent approximately 10 hours on this project.

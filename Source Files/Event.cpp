@@ -2,7 +2,7 @@
 Authors: Mark St. Michell and Davis Brooks
 Date: Spring 2026
 
-Purpose: to be awesome
+Purpose: Event class implementation.
 */
 
 #include "Event.h"
