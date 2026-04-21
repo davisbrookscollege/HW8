@@ -2,7 +2,11 @@
 Authors: Mark St. Michell and Davis Brooks
 Date: Spring 2026
 
-Purpose:
+Purpose: This program simulates a logic circuit based
+on two given input files. It will output the waveform
+for each of the wires over time. It can handle the 7
+main types of logic gates, each with 2 inputs, beside
+the NOT gate.
 */
 
 #include <iostream>

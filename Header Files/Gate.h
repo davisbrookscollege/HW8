@@ -2,7 +2,7 @@
 Authors: Mark St. Michell and Davis Brooks
 Date: Spring 2026
 
-Purpose:
+Purpose: Gate class specification file.
 */
 
 #ifndef GATE_H
@@ -15,7 +15,7 @@ class Gate {
 public:
     enum type {NOT, AND, NAND, OR, NOR, XOR, XNOR};
 
-    Gate(string gateInput, int delay, Wire *in1, Wire *in2, Wire *out); //FIXME: we may need to default *in2 for not gates
+    Gate(string gateInput, int delay, Wire *in1, Wire *in2, Wire *out);
     int getDelay() const;
     Wire* getOutput() const;
     Wire::state evaluate(Wire* inputWire, Wire::state futureState = Wire::state::DEFAULTED);
