@@ -36,7 +36,7 @@ int main () {
     vector<Wire*> wires; //vector of wires
     priority_queue<Event> events; 
 
-    initializeCircuit(events, wires, "circuit2"); //reads files, then initializes wires, gates, and known events
+    initializeCircuit(events, wires, "circuit4"); //reads files, then initializes wires, gates, and known events
 
     while (!events.empty()) {
 	    Event e = events.top();
