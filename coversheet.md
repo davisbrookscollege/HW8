@@ -33,7 +33,7 @@ The assignment description had a strict no AI policy, so we did not use AI.
 # Summary/Conclusion
 Present your results. Did it work properly? Are there any limitations? If it is an analysis-type project, this section may be significantly longer than for a simple implementation-type project.
 
-The program works exactly as expected. The program is a simple version of a logic gate simulator, so there are many limitations, such as the fact that the simulation must be capped to a specific simulation length so that feedback loops don't evaluate indefinitely. The logic also requires a very specific format of the text files in order to parse the inputs correctly.Our program also doesn't take account if the user inputs a faulty file name. Since this is a terminal based program, this isn't an issue because the user can simply rerun the program and fix their input.
+The program works exactly as expected. The program is a simple version of a logic gate simulator, so there are many limitations, such as the fact that the simulation must be capped to a specific simulation length so that feedback loops don't evaluate indefinitely. The logic also requires a very specific format of the text files in order to parse the inputs correctly. Our program also doesn't take account if the user inputs a faulty file name. Since this is a terminal based program, this isn't an issue because the user can simply rerun the program and fix their input.
 # Lessons Learned
 List any lessons learned, especially in regards to AI use.
 
