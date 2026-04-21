@@ -41,4 +41,4 @@ One of the biggest lessons for this project was learning how to code in a group 
 # Time Spent
 Approximately how much time did you spend on this project?
 
-We each have spent approximately 10 hours on this project.
+We each have spent approximately **12** hours on this project.
