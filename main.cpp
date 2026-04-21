@@ -37,8 +37,12 @@ int main () {
     priority_queue<Event> events; 
     Event e;
     int finalTime = 0;
+    string wireFile;
 
-    initializeCircuit(events, wires, "circuit2"); //reads files, then initializes wires, gates, and known events
+    cout << "Input wire file name: ";
+    cin >> wireFile;
+
+    initializeCircuit(events, wires, wireFile); //reads files, then initializes wires, gates, and known events
 
     while (!events.empty()) {
 	    e = events.top();
