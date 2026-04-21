@@ -36,7 +36,7 @@ int main () {
     vector<Wire*> wires; //vector of wires
     priority_queue<Event> events; 
 
-    initializeCircuit(events, wires, "circuit4"); //reads files, then initializes wires, gates, and known events
+    initializeCircuit(events, wires, "flipflop"); //reads files, then initializes wires, gates, and known events
 
     while (!events.empty()) {
 	    Event e = events.top();
@@ -214,24 +214,28 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
     vector<Gate*> gates = wire->getDrives();
     int time = e.getTime();
 
+    //prevents infinite feedback loops
+    if (time < 50) {
+
     //runs through every gate that is driven by the wire we're handling
-    for (int i = 0; i < gates.size(); ++i) {
+        for (int i = 0; i < gates.size(); ++i) {
 
-        Gate* curGate            = gates.at(i);
-        Wire* outputWire         = curGate->getOutput();
-        int nextTime             = e.getTime() + curGate->getDelay();
+            Gate* curGate            = gates.at(i);
+            Wire* outputWire         = curGate->getOutput();
+            int nextTime             = e.getTime() + curGate->getDelay();
                 
-        // Evaluate the future state of the gate before the change (what it would be if the event did not occur)
-        Wire::state past         = curGate->evaluate(wire);
+            // Evaluate the future state of the gate before the change (what it would be if the event did not occur)
+            Wire::state past         = curGate->evaluate(wire);
 
-        // Evaluate the future state of the gate after the change (what it will be after the event occurs), but do not actually apply the change to the input wire
-        Wire::state future       = curGate->evaluate(wire, e.getState());
+            // Evaluate the future state of the gate after the change (what it will be after the event occurs), but do not actually apply the change to the input wire
+            Wire::state future       = curGate->evaluate(wire, e.getState());
 
-        if (past != future) {
-            int outWireIndex = outputWire->getIndex();
+            if (past != future) {
+                int outWireIndex = outputWire->getIndex();
 
-            Event futureEvent = Event(outWireIndex, nextTime, future);
-            events.push(futureEvent);
+                Event futureEvent = Event(outWireIndex, nextTime, future);
+                events.push(futureEvent);
+            }
         }
     }
 
