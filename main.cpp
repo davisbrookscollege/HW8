@@ -35,13 +35,21 @@ int main () {
     
     vector<Wire*> wires; //vector of wires
     priority_queue<Event> events; 
+    Event e;
+    int finalTime = 0;
 
-    initializeCircuit(events, wires, "flipflop"); //reads files, then initializes wires, gates, and known events
+    initializeCircuit(events, wires, "circuit2"); //reads files, then initializes wires, gates, and known events
 
     while (!events.empty()) {
-	    Event e = events.top();
+	    e = events.top();
 	    events.pop(); //remove event
 	    handleEvent(wires, e, events); //set the wire values as specified in e AT THE END of this function
+    }
+
+    finalTime = e.getTime();
+
+    for (int i = 0; i < wires.size(); i++) {
+        wires.at(i)->setHistory(wires.at(i)->getState(), finalTime);
     }
 
     printCircuit(wires);
@@ -240,26 +248,33 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
 }
 
 void printCircuit(const vector<Wire*>& wires) {
-    for (int i = 0; i < wires.size(); ++i) {
-        cout << "    " << wires.at(i)->getName() << " | ";
-        for (int j = 0; j < wires.at(i)->getHistory().size(); ++j) {
-            if (wires.at(i)->getHistory().at(j) == State::HI) {
-                cout << "-";
-            }
-            else if (wires.at(i)->getHistory().at(j) == State::LO) {
-                cout << "_";
-            }
-            else if (wires.at(i)->getHistory().at(j) == State::UND) {
-                cout << "x";
-            }
-        }
-        cout << endl;
-        cout << "      |" << endl;
 
-        if (i == wires.size() - 1) {
-            cout << "       _______________________" << endl;
+    bool isSneakyWire = false;
+
+    for (int i = 0; i < wires.size(); ++i) {
+
+        isSneakyWire = wires.at(i)->getName() == "?";
+
+        if (!isSneakyWire) {
+
+            if (i != 0) {cout << "      |" << endl;}
+
+            cout << "    " << wires.at(i)->getName() << " | ";
+            for (int j = 0; j < wires.at(i)->getHistory().size(); ++j) {
+                if (wires.at(i)->getHistory().at(j) == State::HI) {
+                    cout << "-";
+                }
+                else if (wires.at(i)->getHistory().at(j) == State::LO) {
+                    cout << "_";
+                }
+                else if (wires.at(i)->getHistory().at(j) == State::UND) {
+                    cout << "x";
+                }
+            }
+            cout << endl;
         }
     }
+    cout << endl;
 }
 
 //Returns a wire given an index
