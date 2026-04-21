@@ -27,12 +27,6 @@ Wire* getWireByIndex(vector<Wire*>& wires, int wireIndex);
 int getWireIndexByName(const vector<Wire*>& wires, string name);
 
 int main () {
-    //1. Read CD
-    //2. Read VD
-    //3. Simulate
-    //4. Print results
-
-    
     vector<Wire*> wires; //vector of wires
     priority_queue<Event> events; 
     Event e;
@@ -48,12 +42,14 @@ int main () {
 
     initializeCircuit(events, wires, wireFile); //reads files, then initializes wires, gates, and known events
 
+    //runs through all events
     while (!events.empty()) {
 	    e = events.top();
 	    events.pop(); //remove event
 	    handleEvent(wires, e, events); //set the wire values as specified in e AT THE END of this function
     }
 
+    //The next 5 lines fill in the characters so that the program prints properly
     finalTime = e.getTime();
 
     for (int i = 0; i < wires.size(); i++) {
@@ -68,9 +64,8 @@ int main () {
 }
 
 
-
+//Opens and parses the circuit vector file
 void initializeCircuitEvents(priority_queue<Event>& events, string fileName, const vector<Wire*>& wires) {
-
     ifstream inFS;
     string wordStr;
     string wireStr;
@@ -98,7 +93,6 @@ void initializeCircuitEvents(priority_queue<Event>& events, string fileName, con
         inFS >> wordStr;
 
         //Get the wire
-        //FIX ME: use wire's name to get the wire
         inFS >> wireStr;
         wire = getWireIndexByName(wires, wireStr);
 
@@ -123,6 +117,7 @@ void initializeCircuitEvents(priority_queue<Event>& events, string fileName, con
     inFS.close();
 }
 
+//Opens and parses the circuit description file
 void initalizeWiresAndGates(vector<Wire*>& wires, string fileName) {
 
     ifstream inFS;
@@ -158,7 +153,6 @@ void initalizeWiresAndGates(vector<Wire*>& wires, string fileName) {
 
     //Remove the goofy random line at the top
     getline(inFS, wordStr);
-
     
     while (!inFS.eof()) {
 
@@ -216,12 +210,14 @@ void initalizeWiresAndGates(vector<Wire*>& wires, string fileName) {
     inFS.close();
 }
 
+//cleanly initializes the program so that it is ready to handle events
 void initializeCircuit(priority_queue<Event>& events, vector<Wire*>& wires, string circuitName) {
 
     initalizeWiresAndGates(wires, circuitName);
     initializeCircuitEvents(events, circuitName, wires);
 }
 
+//handles a singular event and sets wire values accordingly. Adds new events as needed.
 void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
     int wireIndex = e.getWire();
     Wire* wire = getWireByIndex(wires, wireIndex);
@@ -238,10 +234,10 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
             Wire* outputWire         = curGate->getOutput();
             int nextTime             = e.getTime() + curGate->getDelay();
                 
-            // Evaluate the future state of the gate before the change (what it would be if the event did not occur)
+    // Evaluates the future state of the gate before the change (what it would be if the event did not occur)
             Wire::state past         = curGate->evaluate(wire);
 
-            // Evaluate the future state of the gate after the change (what it will be after the event occurs), but do not actually apply the change to the input wire
+    // Evaluates the future state of the gate after the change (what it will be after the event occurs)
             Wire::state future       = curGate->evaluate(wire, e.getState());
 
             if (past != future) {
@@ -253,10 +249,11 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
         }
     }
 
-    wire->setState(e.getState()); // Set the wire value at the end
-    wire->setHistory(wire->getState(), time);
+    wire->setState(e.getState()); // Sets the wire value
+    wire->setHistory(wire->getState(), time); //adds to the wire history
 }
 
+//prints the results
 void printCircuit(const vector<Wire*>& wires) {
 
     bool isSneakyWire = false;
@@ -287,8 +284,7 @@ void printCircuit(const vector<Wire*>& wires) {
     cout << endl;
 }
 
-//Returns a wire given an index
-//If the wire doesn't exist it creates a new one
+//Returns a wire given an index. If the wire doesn't exist it creates a new one
 Wire* getWireByIndex(vector<Wire*>& wires, int wireIndex) {
 
     Wire *curWire = nullptr;
@@ -310,6 +306,7 @@ Wire* getWireByIndex(vector<Wire*>& wires, int wireIndex) {
     return outputWire;
 }
 
+//returns the wire index given the wire name
 int getWireIndexByName(const vector<Wire*>& wires, string name) {
 
     Wire *curWire = nullptr;
