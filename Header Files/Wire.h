@@ -21,7 +21,7 @@ public:
     enum state {HI, LO, UND};
     Wire(state initState = UND, string name = "", int index = -1);
     void setState(state);
-    void setHistory(state, int);            //State and time it's set
+    void setHistory(state, int, Wire*);            //State and time it's set
     void setDrives(vector<Gate*>);          //Set all of the drives (not sure if we need this one)
     void pushDrive(Gate*);                  //Adds one drive
     state getState() const;

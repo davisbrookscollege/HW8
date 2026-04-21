@@ -31,7 +31,7 @@ void Wire::setState(state inputState) {
 }
 
 //Pushes back 1 state to the history
-void Wire::setHistory(state inputState, int setTime) {
+void Wire::setHistory(state inputState, int setTime, Wire *wire) {
 
     int curTime = lastModifiedTime + 1;
 
@@ -54,6 +54,19 @@ void Wire::setHistory(state inputState, int setTime) {
     history.push_back(inputState);
     lastModifiedTime = setTime;
     prevState = inputState;
+    cout << wire->getName() << ": ";
+    for (int i = 0; i < history.size(); i++) {
+        if (history.at(i) == Wire::state::HI) {
+                cout << "-";
+            }
+            else if (history.at(i) == Wire::state::LO) {
+                cout << "_";
+            }
+            else if (history.at(i) == Wire::state::UND) {
+                cout << "x";
+            }
+    }
+    cout << endl;
 }
 
 //Assignes drives with the input drives
