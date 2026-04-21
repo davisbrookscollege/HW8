@@ -38,9 +38,13 @@ int main () {
     Event e;
     int finalTime = 0;
     string wireFile;
+    string breakLine = "-----------------------------------------------------------------------------";
 
-    cout << "Input wire file name: ";
+    cout << "Store circuit description and vector file in a folder called 'Circuit Files'" << endl;
+    cout << breakLine << endl;
+    cout << "Input circuit file root name: ";
     cin >> wireFile;
+    cout << breakLine << endl;
 
     initializeCircuit(events, wires, wireFile); //reads files, then initializes wires, gates, and known events
 
@@ -55,6 +59,8 @@ int main () {
     for (int i = 0; i < wires.size(); i++) {
         wires.at(i)->setHistory(wires.at(i)->getState(), finalTime);
     }
+
+    cout << "Circuit simulation:" << endl << endl;
 
     printCircuit(wires);
 
@@ -79,7 +85,7 @@ void initializeCircuitEvents(priority_queue<Event>& events, string fileName, con
     inFS.open("Circuit Files/" + fileName + "_v.txt");
 
     if (!inFS.is_open()) {
-        cout << "failed to open " << fileName << endl;
+        cout << "Failed to open Circuit Files/" << fileName << "_v.txt" << endl;
     }
 
     //Remove the top line
@@ -147,7 +153,7 @@ void initalizeWiresAndGates(vector<Wire*>& wires, string fileName) {
     inFS.open("Circuit Files/" + fileName + ".txt");
 
     if (!inFS.is_open()) {
-        cout << "failed to open " << fileName << endl;
+        cout << "Failed to open Circuit Files/" << fileName << ".txt" << endl;
     }
 
     //Remove the goofy random line at the top
