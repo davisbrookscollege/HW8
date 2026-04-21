@@ -35,14 +35,32 @@ int main () {
     
     vector<Wire*> wires; //vector of wires
     priority_queue<Event> events; 
+    Event e;
+    int finalTime = 0;
+    string wireFile;
+    string breakLine = "-----------------------------------------------------------------------------";
 
-    initializeCircuit(events, wires, "flipflop"); //reads files, then initializes wires, gates, and known events
+    cout << "Store circuit description and vector file in a folder called 'Circuit Files'" << endl;
+    cout << breakLine << endl;
+    cout << "Input circuit file root name: ";
+    cin >> wireFile;
+    cout << breakLine << endl;
+
+    initializeCircuit(events, wires, wireFile); //reads files, then initializes wires, gates, and known events
 
     while (!events.empty()) {
-	    Event e = events.top();
+	    e = events.top();
 	    events.pop(); //remove event
 	    handleEvent(wires, e, events); //set the wire values as specified in e AT THE END of this function
     }
+
+    finalTime = e.getTime();
+
+    for (int i = 0; i < wires.size(); i++) {
+        wires.at(i)->setHistory(wires.at(i)->getState(), finalTime);
+    }
+
+    cout << "Circuit simulation:" << endl << endl;
 
     printCircuit(wires);
 
@@ -67,7 +85,7 @@ void initializeCircuitEvents(priority_queue<Event>& events, string fileName, con
     inFS.open("Circuit Files/" + fileName + "_v.txt");
 
     if (!inFS.is_open()) {
-        cout << "failed to open " << fileName << endl;
+        cout << "Failed to open Circuit Files/" << fileName << "_v.txt" << endl;
     }
 
     //Remove the top line
@@ -135,7 +153,7 @@ void initalizeWiresAndGates(vector<Wire*>& wires, string fileName) {
     inFS.open("Circuit Files/" + fileName + ".txt");
 
     if (!inFS.is_open()) {
-        cout << "failed to open " << fileName << endl;
+        cout << "Failed to open Circuit Files/" << fileName << ".txt" << endl;
     }
 
     //Remove the goofy random line at the top
@@ -240,26 +258,33 @@ void handleEvent(vector<Wire*>& wires, Event e, priority_queue<Event>& events) {
 }
 
 void printCircuit(const vector<Wire*>& wires) {
-    for (int i = 0; i < wires.size(); ++i) {
-        cout << "    " << wires.at(i)->getName() << " | ";
-        for (int j = 0; j < wires.at(i)->getHistory().size(); ++j) {
-            if (wires.at(i)->getHistory().at(j) == State::HI) {
-                cout << "-";
-            }
-            else if (wires.at(i)->getHistory().at(j) == State::LO) {
-                cout << "_";
-            }
-            else if (wires.at(i)->getHistory().at(j) == State::UND) {
-                cout << "x";
-            }
-        }
-        cout << endl;
-        cout << "      |" << endl;
 
-        if (i == wires.size() - 1) {
-            cout << "       _______________________" << endl;
+    bool isSneakyWire = false;
+
+    for (int i = 0; i < wires.size(); ++i) {
+
+        isSneakyWire = wires.at(i)->getName() == "?";
+
+        if (!isSneakyWire) {
+
+            if (i != 0) {cout << "      |" << endl;}
+
+            cout << "    " << wires.at(i)->getName() << " | ";
+            for (int j = 0; j < wires.at(i)->getHistory().size(); ++j) {
+                if (wires.at(i)->getHistory().at(j) == State::HI) {
+                    cout << "-";
+                }
+                else if (wires.at(i)->getHistory().at(j) == State::LO) {
+                    cout << "_";
+                }
+                else if (wires.at(i)->getHistory().at(j) == State::UND) {
+                    cout << "x";
+                }
+            }
+            cout << endl;
         }
     }
+    cout << endl;
 }
 
 //Returns a wire given an index
