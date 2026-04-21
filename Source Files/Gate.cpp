@@ -50,18 +50,6 @@ Wire* Gate::getInput2() {
     return in2;
 }
 
-/*
-
-//returns a pointer to either input wire 1 or input wire 2
-Wire* Gate::getInput(int wireNum) const {
-    if (wireNum == in1->getIndex()) {
-        return in1;
-    }
-    return in2;
-}
-
-*/
-
 //returns a pointer to the output wire
 Wire* Gate::getOutput() const {
     return out;
