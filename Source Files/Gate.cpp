@@ -56,11 +56,18 @@ Wire* Gate::getOutput() const {
 }
 
 //evaluates the state of the gate based on the logic provided as parameters
-Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire *out) {
-    Wire::state gateState = Wire::state::UND;
+Wire::state Gate::evaluate(Wire::state futureState) {
+    Wire::state gateState;
+
+    if (futureState == Wire::state::DEFAULT) {
+        Wire::state gateState = Wire::state::UND;
+    }
+    else {
+        Wire::state gateState = futureState;
+    }
 
 //layer of conditional statements evaluate the logic based on the type of gate
-    if (gateStyle == NOT) {
+    if (gateType == NOT) {
         //only one input, so in2 is ignored
         if (in1->getState() == Wire::state::HI) {
             gateState = Wire::state::LO;
@@ -74,7 +81,7 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
     }
 
     //AND gate logic
-    else if (gateStyle == AND) {
+    else if (gateType == AND) {
         if (in1->getState() == Wire::state::LO || //either are low
             in2->getState() == Wire::state::LO) {
             gateState = Wire::state::LO;
@@ -89,7 +96,7 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
     }
 
     //NAND gate logic
-    else if (gateStyle == NAND) {
+    else if (gateType == NAND) {
         if (in1->getState() == Wire::state::LO || //either are low
             in2->getState() == Wire::state::LO) {
             gateState = Wire::state::HI;
@@ -104,7 +111,7 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
     }
 
     //OR gate logic
-    else if (gateStyle == OR) {
+    else if (gateType == OR) {
         if (in1->getState() == Wire::state::HI || //either are hi
             in2->getState() == Wire::state::HI) {
             gateState = Wire::state::HI;
@@ -119,7 +126,7 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
     }
 
     //NOR gate logic
-    else if (gateStyle == NOR) {
+    else if (gateType == NOR) {
         if (in1->getState() == Wire::state::HI || //either are HI
             in2->getState() == Wire::state::HI) {
             gateState = Wire::state::LO;
@@ -134,7 +141,7 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
     }
 
     //XOR gate logic
-    else if (gateStyle == XOR) {
+    else if (gateType == XOR) {
         if (in1->getState() == Wire::state::LO && //if the wires have different values
             in2->getState() == Wire::state::HI ||
             in1->getState() == Wire::state::HI &&
@@ -153,7 +160,7 @@ Wire::state Gate::evaluate(type gateStyle, int delay, Wire *in1, Wire *in2, Wire
     }
 
     //XNOR gate logic
-    else if (gateStyle == XNOR) {
+    else if (gateType == XNOR) {
         if (in1->getState() == Wire::state::LO && //if the wires have different values
             in2->getState() == Wire::state::HI ||
             in1->getState() == Wire::state::HI &&
